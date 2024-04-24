@@ -1,0 +1,153 @@
+'reinit'
+
+*************************************************
+*****************SUL************************************************
+
+*'open /p1/operacao/scripts/wrf/output/wrf15_all.ctl'
+'open ../../../../../wrf15_all.ctl'
+'open ../../../../../wrf15_raios_capecin.ctl'
+
+'set display color white'
+*'set grid off'
+
+'set parea 0.4 8.3 4 8.7'
+*'set parea 0.3 8.3 1.2 10'
+*set parea xmin xmax ymin ymax
+'set map 1 1 4'
+'set mproj scaled'
+'set mpdset brmap_hires'
+
+
+'set lat -36 -19'
+'set lon -63 -47'
+
+
+time=1
+
+tf=1
+
+*correto 97
+while ( tf< 97 )
+
+*while ( tf< 10 )
+
+'set t 'tf
+'q time'
+dataf=subwrd(result,3)
+date_fi=subwrd(result,3,4,12)
+hora_fi=substr(dataf,1,3)
+dia_fi=substr(dataf,4,2)
+mes=substr(dataf,6,3)
+mes_fi=mesc(mes)
+ano_fi=substr(dataf,9,5)
+
+*===================cores==1h====SKWEAT====================
+
+*COLOR BARS for K
+'set rgb 65 255 255 255'
+
+
+'set rgb 40 100 100 240 '
+'set rgb 41 0 160 0 '
+'set rgb 42 255 250 0 '
+'set rgb 43 255 150 0'
+'set rgb 44 180 0 0'
+'set rgb 45 161 0 199'
+'set grads off'
+'set clevs 250 300 400 500'
+'set ccols 65  41  42  44  '
+
+
+
+*=======================================================================
+
+
+'set gxout shaded'
+*'d mag (u,v)'
+'d indswt.1'
+
+'shinecbarn.gs'
+
+
+
+'set font 1'
+*'set strsiz 0.08 0.08'
+'set strsiz 0.09 0.1'
+'set string 1 tr 2'
+
+
+*'draw string 1.3 7.7  MODELO: WRF 15KM'
+
+
+*'draw string 4.5 1.5  SWEAT > 250 => Significativo || > 300 => Instavel '
+*'draw string 4.8 1.35  SWEAT > 400 => Condicoes para formacao de Tornados'
+
+*'draw string 3.3 bc 0.5 2 SWEAT > 250 => Significativo || > 300 => Instavel'
+'draw string 4.2 0.4  SWEAT > 250 => Significativo || > 300 => Instavel '
+'draw string 10.3 0.4  SWEAT > 400 => Condicoes para Tornados'
+
+'draw title SWEAT > 400 => Condicoes para Tornados - 'hora_fi'/'dia_fi'/'mes_fi'/'ano_fi''
+
+
+
+tf=tf+1
+if (tf<10)
+
+'printim /p1/operacao/scripts/wrf/NOVOVentoPortoSP/SUL_TOR00'tf'horas.png x600 y700'
+
+*'printim fig/TOR'tf'horas.png x600 y700'
+
+
+
+endif
+
+if (tf<=99)
+if (tf>=10)
+
+
+
+
+'printim /p1/operacao/scripts/wrf/NOVOVentoPortoSP/SUL_TOR0'tf'horas.png x600 y700'
+
+
+
+endif
+else
+
+
+
+'printim /p1/operacao/scripts/wrf/NOVOVentoPortoSP/SUL_TOR'tf'horas.png x600 y700'
+
+
+
+
+
+
+endif
+
+*'q pos'
+'c'
+
+time=time+1
+
+endwhile
+
+quit
+
+function mesc(mes)
+if mes=JAN;res=01;endif
+if mes=FEB;res=02;endif
+if mes=MAR;res=03;endif
+if mes=APR;res=04;endif
+if mes=MAY;res=05;endif
+if mes=JUN;res=06;endif
+if mes=JUL;res=07;endif
+if mes=AUG;res=08;endif
+if mes=SEP;res=09;endif
+if mes=OCT;res=10;endif
+if mes=NOV;res=11;endif
+if mes=DEC;res=12;endif
+return (res)
+
+return
+
